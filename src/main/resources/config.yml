@@ -1,0 +1,569 @@
+# ============================================================
+#  LegendaryWeapons — основной конфиг
+#  Все значения можно менять без перекомпиляции (/legendary reload)
+# ============================================================
+
+general:
+  # Отключить ванильный крафт булавы (сама булава и компоненты остаются)
+  disable_mace_craft: true
+  # Проверять защиту (WorldGuard и т.п.) через "пробный" эвент урона
+  respect_protection: true
+  # Задевают ли способности мобов (по умолчанию только игроков)
+  affect_mobs: false
+  # Максимум целей на одну способность
+  max_targets: 8
+  # Лимит частиц за один вызов
+  max_particles: 150
+  # Если список не пуст — способности работают ТОЛЬКО в этих мирах
+  enabled_worlds: []
+  # Миры, где способности отключены
+  disabled_worlds: []
+  # Что делает F, пока вторая способность закрыта: MESSAGE (показать прогресс, обмен руками отменён) или ALLOW_SWAP
+  locked_f_behavior: MESSAGE
+
+# Защита от дюпа: проверка инвентарей и эндер-сундуков онлайн-игроков
+# Мешочки: 3 стака внутри, ПКМ — открыть
+pouch:
+  enabled: true
+  craftable: true          # крафт: нить сверху, кожа «рамкой» (S / L_L / LLL)
+  max_per_player: 3
+
+# Админские предметы (Звезда управления, жезл барьеров) у обычных игроков не работают и изымаются
+admin_guard:
+  enabled: true
+  interval_ticks: 100
+
+guard:
+  enabled: true
+  interval_ticks: 100
+  # true — удалять легендарные предметы, которых нет в базе (подделка через NBT/креатив)
+  remove_unregistered: false
+
+hearts:
+  enabled: true
+  # Убитый Похитителем жизней, у которого сердец стало минимум, не может вернуться в игру (режим наблюдателя).
+  # Вернуть: /legendary revive <ник> или меню (Сердца). Сердец после возвращения: revive_hearts
+  eliminate_at_min: true
+  revive_hearts: 3
+  default: 10          # стартовое число постоянных сердец
+  min: 1               # ниже этого число сердец упасть не может
+
+abilities:
+  ignore_armor: true      # урон способностей игнорирует броню и Защиту (полная алмазка P3 не режет урон)
+  unlock:
+    unique_player_kills: 5
+  controls:            # информационно: управление зашито в коде
+    primary: SHIFT_RIGHT_CLICK
+    secondary: SWAP_HANDS
+  # Кулдауны в секундах
+  cooldowns:
+    life_stealer:  { primary: 30, secondary: 90 }
+    light_blade:   { primary: 35, secondary: 80 }
+    ender_blade:   { primary: 40, secondary: 100 }
+    ban_hammer:    { primary: 45, secondary: 120 }
+    thunderer:     { primary: 35, secondary: 70 }
+    tecton:        { primary: 35, secondary: 90 }
+    inferno:       { primary: 30, secondary: 75 }
+    frost_axe:     { primary: 30, secondary: 75 }
+    crusher:       { primary: 25, secondary: 70 }
+    blood_oath:    { primary: 25, secondary: 80 }
+    phantom:       { primary: 20, secondary: 60 }
+    prisoner:      { primary: 25, secondary: 60 }
+    copper_set:    { primary: 45, secondary: 45 }
+
+crafting:
+  # Длительность ритуала в секундах (по умолчанию у всех оружий 15 минут)
+  ritual:
+    normal_duration: 900
+    special_duration: 900
+    unique_duration: 900
+  # Оповещение всех игроков в чате: координаты открываются по одной: X через 3 минуты, затем Z, затем Y.
+  # Расстояние и проценты в чат не пишутся. Таймер висит голограммой над столом алтаря.
+  announce:
+    enabled: true
+    reveal_every_seconds: 180
+    hologram_height: 3.2
+  # Правило отмены: админ-отмена (/legendary altar cancel) возвращает материалы на указанный процент
+  cancel_refund_percent: 100
+
+# Большой алтарь: radius — базовый радиус площадки (5-12), scale — множитель (1.2 = на 20% больше).
+altars:
+  radius: 7
+  scale: 1.2
+  # Случайная расстановка: /legendary altar random [тип|all]
+  random:
+    radius: 2500          # максимум от центра мира (для карты 5-6 тыс. блоков = около 2500-2800)
+    min_from_spawn: 300   # не ближе к спавну
+    min_distance: 600     # минимум между алтарями
+    max_slope: 6          # допустимый перепад высот на площадке
+    max_tries: 400
+    # Подземные алтари (в локации «глубокая тьма»; если её не нашлось за deep_dark_tries попыток — просто глубоко под землёй)
+    underground:
+      enabled: true
+      chance: 0.25                # шанс, что обычный алтарь уйдёт под землю
+      always: [tecton]            # эти типы ВСЕГДА под землёй (id оружия; можно пусто [])
+      min_y: -50
+      max_y: -20
+      deep_dark_tries: 150
+
+# Защита легендарок: нельзя уничтожить (огонь, лава, кактус, взрыв, время). Только пустота.
+protect:
+  block_modify: true      # запрет наковальни, чарок, точила, кузницы, переплавки
+legendary_glow:
+  holder: false           # true — владелец легендарки в руке тоже светится (предметы на земле светятся всегда)
+
+# Иконки предметов (ресурспак из папки resource_pack). Включайте ТОЛЬКО после того, как пак загружен на хостинг
+# и указан url, иначе иконки будут фиолетово-чёрными.
+resource_pack:
+  enabled: false
+  send_on_join: true
+  required: false
+  url: ""
+  sha1: ""
+  prompt: "Иконки легендарных предметов"
+
+# Табло статистики справа на экране (у игрока выключается командой /stats)
+stats_board:
+  enabled: true
+  title: "&6&l⚔ СТАТИСТИКА ⚔"
+  update_ticks: 20
+  show_hearts: true
+
+# Данжи «Проклятый замок»: редкая локация (стены, башни, донжон, склеп с боссом) с компонентами для крафта.
+# /legendary dungeon spawn | random [кол-во] | list | tp <id> | refill <id> | remove <id>
+dungeon:
+  random_count: 4          # сколько ставить по умолчанию командой random / кнопкой в меню (по одному на каждый предмет)
+  auto_spawn_count: 0      # >0: при первом запуске без данжей создать столько автоматически
+  refill_minutes: 60       # как часто обновлять сундуки и возвращать босса
+  blocks_per_tick: 4000    # скорость постройки (меньше = мягче для сервера)
+  guards: true             # стража: двор, башни, зал, склеп
+  guard_health: 30         # здоровье рядовой стражи (капитан x2,5, вассалы x1,5)
+  # Пять этажей: двор/башни, тронный зал, галерея (2-й этаж), подвал, темница-змейка, склеп (низ).
+  # Один данж = один ивентовый предмет: «Цитадель Молота» (навершие булавы), «Крепость Палача» (голова топора),
+  # «Логово Убийц» (основа кинжала), «Оружейная Рыцарей» (ивентовая пластина). Тип выбирается тот, которого на карте меньше.
+  boss:
+    enabled: true
+    name: "&4&lРыцарь-страж склепа"
+    health: 250
+    damage: 12
+    slam_damage: 8         # удар по земле (радиус 6)
+    drop_min: 1            # сколько предметов выпадает с босса
+    drop_max: 2
+  random:
+    radius: 3000
+    min_from_spawn: 400
+    min_distance: 900      # между данжами
+    min_altar_distance: 150
+    max_slope: 7
+    max_tries: 500
+  # Ивентовый предмет лежит ТОЛЬКО в самом низу данжа (3-й подземный уровень) и падает с босса.
+  # Сундуки башен, галереи, зала, подвала и темницы дают лишь обычные припасы.
+  loot:
+    # chance — шанс ивентового предмета, recipe_chance — шанс книги-чертежа с рецептом (по умолчанию 0 — в данжах не появляется)
+    tier2: { chance: 0.20, recipe_chance: 0.00, min: 1, max: 1 }   # боковые хранилища в склепе
+    tier3: { chance: 1.00, recipe_chance: 0.00, min: 1, max: 1 }   # сокровищница за боссом (гарантированно)
+
+# Барьеры (невидимые стены): Звезда управления -> «Поставить барьер», либо /legendary barrier ...
+barrier:
+  max_blocks: 3000000        # максимум блоков за одну операцию
+  blocks_per_tick: 6000      # скорость работы (меньше = мягче для сервера)
+  default_wall_height: 6     # высота стены, если выбраны две точки на одной высоте и включена «по выделению»
+
+# Босс-бар с перезарядкой способностей при оружии в руке
+bossbar:
+  enabled: true
+
+# Характеристики предметов как у незерита (применяется к НОВЫМ предметам)
+stats:
+  enabled: true
+  weapons:
+    sword: { damage: 8, speed: 1.6 }    # мечи и кинжалы
+    axe:   { damage: 10, speed: 1.0 }   # топоры
+    mace:  { damage: 8, speed: 1.6 }
+    spear: { damage: 8, speed: 1.6 }
+  armor:
+    toughness: 3.0
+    knockback_resistance: 0.1
+    helmet:     { defense: 3, durability: 407 }
+    chestplate: { defense: 8, durability: 592 }
+    leggings:   { defense: 6, durability: 555 }
+    boots:      { defense: 3, durability: 481 }
+
+# Ведро еды (эпический предмет)
+food_bucket:
+  charges: 2              # сколько зарядов можно выпить подряд; каждый заряд восстанавливается отдельно
+  cooldown_seconds: 30    # восстановление одного заряда
+  nutrition: 6            # как у золотой моркови
+  saturation: 14.4
+  absorption_hp: 2.0      # одно золотое сердце
+  absorption_seconds: 120
+  # Рецепт на верстаке: каждый ингредиент в своей клетке стеком нужного размера, без Shift
+  recipe:
+    enchanted_golden_apple: 2
+    golden_apple: 16
+    golden_carrot: 32
+    cooked_porkchop: 20
+    milk_bucket: 1
+    cooked_beef: 20
+
+# ------------------------------------------------------------
+#  Параметры оружия. Не указанные ключи берут значения по умолчанию из кода.
+#  unique: true  -> число копий на карте ограничено (по умолчанию 1; max_count: N или меню админа)
+#  ritual_category: NORMAL | SPECIAL | UNIQUE (длительность ритуала)
+# ------------------------------------------------------------
+items:
+  life_stealer:
+    max_bonus_hearts: 10
+    unique: true
+    ritual_category: SPECIAL
+    harvest_radius: 4.5
+    harvest_damage: 4
+    harvest_heal_ratio: 0.3
+    harvest_heal_cap: 6
+    shroud_seconds: 8
+    shroud_radius: 5
+    shroud_damage: 4      # души срываются с покрова (4 HP = 2 сердца)
+  light_blade:
+    unique: true
+    ritual_category: NORMAL
+    pulse_radius: 6
+    blind_ticks: 60
+    knockback: 1.3
+    divine_seconds: 8
+    divine_absorb: 0.4
+    flash_radius: 5
+    pulse_damage: 5
+    divine_radius: 4
+    divine_damage: 4
+    flash_damage: 4
+  ender_blade:
+    unique: true
+    ritual_category: UNIQUE
+    shards: 5
+    shard_damage: 4
+    shard_speed: 1.0
+    shard_range: 20
+    portal_delay_ticks: 15
+    swap_range: 20
+    swap_damage: 5
+  ban_hammer:
+    unique: true
+    ritual_category: UNIQUE
+    ban_enabled: true
+    # {player} и {reason} подставляются автоматически. Разбан: /pardon <ник> или /legendary unban <ник>
+    ban_command: "ban {player} {reason}"
+    unban_command: "pardon {player}"
+    reason: "Убит Молотом бана игроком {killer}"
+    verdict_seconds: 8
+    verdict_bonus: 3
+    zone_radius: 8
+    zone_seconds: 6
+    verdict_damage: 6
+    zone_damage: 4
+  thunderer:
+    unique: true
+    ritual_category: SPECIAL
+    range: 30
+    warning_ticks: 20
+    radius: 3.5
+    damage: 9
+    dash_speed: 1.5
+    dash_ticks: 7
+    dash_damage: 5
+  tecton:
+    unique: true
+    ritual_category: SPECIAL
+    sonic_range: 22
+    sonic_damage: 10
+    sonic_charge_ticks: 10
+    dark_radius: 14
+    dark_ticks: 120
+    glow_ticks: 100
+    dark_knockback: 0.6
+    dark_damage: 5
+  inferno:
+    unique: true
+    ritual_category: NORMAL
+    ring_radius: 5
+    ring_seconds: 3
+    ring_damage: 5
+    ring_fire_ticks: 80
+    max_charges: 5
+    required_charges: 5
+    ash_damage: 6
+    ash_radius: 4.5
+  frost_axe:
+    unique: true
+    ritual_category: NORMAL
+    trap_radius: 4
+    trap_seconds: 6
+    trap_range: 14
+    trap_slow_amp: 2
+    shell_seconds: 8
+    shell_reduction: 0.25
+    shell_slow_ticks: 60
+    trap_damage: 4
+    shell_radius: 4
+    shell_damage: 4
+  crusher:
+    unique: true
+    ritual_category: NORMAL
+    pierce_seconds: 6
+    pierce_ratio: 0.3
+    crush_radius: 5
+    crush_damage: 5
+    crush_armor_percent: 5
+    pierce_radius: 3.5
+    pierce_damage: 5
+  blood_oath:
+    unique: true
+    ritual_category: NORMAL
+    bloodthirst_seconds: 8
+    bloodthirst_ratio: 0.3
+    bloodthirst_cap: 4
+    bat_seconds: 3.5     # длительность полёта нетопырей (и неуязвимости)
+    bat_speed: 0.9       # скорость полёта, блоков за тик
+    bat_count: 6         # сколько летучих мышей сопровождает владельца
+    bloodthirst_radius: 4
+    bloodthirst_damage: 4
+    bloodthirst_heal_ratio: 0.5
+    bloodthirst_heal_cap: 6
+    bat_damage: 4        # укус стаи (каждый враг по пути один раз)
+  phantom:
+    unique: true
+    ritual_category: NORMAL
+    dash_speed: 1.6
+    dash_ticks: 6
+    dash_damage: 6
+    decoy_seconds: 8
+    decoy_radius: 5
+    decoy_damage: 4
+    decoy_burst_radius: 4
+    decoy_burst_damage: 4
+  prisoner:
+    unique: true
+    ritual_category: SPECIAL
+    chains_arm_seconds: 8
+    chains_root_ticks: 40
+    mark_seconds: 15
+    execute_range: 16
+    execute_damage: 8
+    chains_radius: 6
+    chains_damage: 4
+
+# ------------------------------------------------------------
+#  Медный комплект
+# ------------------------------------------------------------
+copper_armor:
+  helmet:
+    radius: 40
+    interval_seconds: 15
+    duration_seconds: 5
+    max_targets: 5
+  chestplate:
+    max_charges: 10
+    gain_cooldown_ms: 500   # не чаще одного заряда за этот интервал
+  leggings:
+    weaving_level: 2        # постоянный эффект «Плетение» на поножах (0 — выключить)
+    duration_multiplier: 0.6
+    min_ticks: 20
+  boots:
+    min_fall_damage: 5
+    speed_ticks: 80
+    speed_amplifier: 1
+    fall_damage_reduction: 0.2
+  set:
+    # Shift + F без легендарного оружия в руке
+    min_charges: 5
+    radius: 10
+    max_targets: 5
+    base_damage: 2
+    damage_per_charge: 0.8
+    max_damage: 12
+    detected_bonus: 0.25    # +25% урона по целям, найденным шлемом «Искатель»
+    speed_ticks: 60
+
+# ------------------------------------------------------------
+#  Рецепты алтарей: ключ — ваниль (MATERIAL) или custom:<id компонента>
+#  Основа оружия — обычный предмет без легендарных меток.
+# ------------------------------------------------------------
+recipes:
+  life_stealer:
+    NETHERITE_SWORD: 1
+    custom:dagger_base: 1
+    ECHO_SHARD: 4
+    GHAST_TEAR: 2
+    NETHERITE_BLOCK: 1
+    WITHER_ROSE: 4
+    NETHER_STAR: 1
+  light_blade:
+    NETHERITE_SWORD: 1
+    custom:dagger_base: 1
+    AMETHYST_SHARD: 16
+    SEA_LANTERN: 4
+    DRAGON_BREATH: 2
+    GOLD_BLOCK: 4
+    NETHER_STAR: 1
+  ender_blade:
+    NETHERITE_SWORD: 1
+    custom:dagger_base: 1
+    ENDER_PEARL: 32
+    ENDER_EYE: 64
+    CHORUS_FRUIT: 64
+    SHULKER_SHELL: 64
+    DRAGON_BREATH: 32
+    DRAGON_HEAD: 3
+    END_ROD: 128
+    OBSIDIAN: 64
+  ban_hammer:
+    MACE: 1
+    custom:mace_head: 16
+    OMINOUS_TRIAL_KEY: 32
+    ECHO_SHARD: 64
+    CRYING_OBSIDIAN: 128
+    TOTEM_OF_UNDYING: 3
+    NETHER_STAR: 1
+    DRAGON_EGG: 1
+    BREEZE_ROD: 256
+  thunderer:
+    MACE: 1
+    custom:mace_head: 4
+    TRIDENT: 1
+    HEART_OF_THE_SEA: 1
+    COPPER_BLOCK: 8
+    LIGHTNING_ROD: 4
+    PRISMARINE_CRYSTALS: 8
+    NETHER_STAR: 1
+  tecton:
+    MACE: 1
+    custom:mace_head: 4
+    HEAVY_CORE: 1
+    ECHO_SHARD: 8
+    SCULK_CATALYST: 4
+    SCULK_SHRIEKER: 2
+    NETHERITE_INGOT: 4
+    NETHER_STAR: 1
+  inferno:
+    NETHERITE_AXE: 1
+    custom:axe_head: 2
+    BLAZE_ROD: 8
+    MAGMA_CREAM: 8
+    GHAST_TEAR: 2
+    ANCIENT_DEBRIS: 4
+    NETHERITE_BLOCK: 1
+    NETHER_STAR: 1
+  frost_axe:
+    NETHERITE_AXE: 1
+    custom:axe_head: 2
+    BLUE_ICE: 16
+    PACKED_ICE: 16
+    SNOW_BLOCK: 8
+    AMETHYST_SHARD: 8
+    HEART_OF_THE_SEA: 1
+    NETHER_STAR: 1
+  crusher:
+    NETHERITE_AXE: 1
+    custom:axe_head: 2
+    HEAVY_CORE: 1
+    IRON_BLOCK: 8
+    DIAMOND_BLOCK: 2
+    ANVIL: 4
+    NETHERITE_INGOT: 4
+    NETHER_STAR: 1
+  blood_oath:
+    custom:dagger_base: 1
+    GHAST_TEAR: 4
+    SPIDER_EYE: 8
+    PHANTOM_MEMBRANE: 4
+    NETHER_WART: 8
+    NETHERITE_INGOT: 2
+    NETHER_STAR: 1
+  phantom:
+    custom:dagger_base: 1
+    PHANTOM_MEMBRANE: 8
+    ECHO_SHARD: 4
+    ENDER_PEARL: 8
+    DRAGON_BREATH: 2
+    NETHER_STAR: 1
+  prisoner:
+    NETHERITE_SPEAR: 1
+    custom:dagger_base: 1
+    IRON_CHAIN: 16
+    ECHO_SHARD: 8
+    SHULKER_SHELL: 2
+    SCULK_CATALYST: 2
+    NETHERITE_INGOT: 2
+    NETHER_STAR: 1
+
+  # Медная броня: у каждой части свой алтарь (copper_helmet, copper_chestplate, copper_leggings, copper_boots)
+  copper_helmet:
+    COPPER_HELMET: 1
+    custom:armor_plate: 1
+    COPPER_BLOCK: 8
+    AMETHYST_SHARD: 8
+    ENDER_EYE: 4
+    NETHER_STAR: 1
+  copper_chestplate:
+    COPPER_CHESTPLATE: 1
+    custom:armor_plate: 1
+    COPPER_BLOCK: 16
+    LIGHTNING_ROD: 8
+    DIAMOND_BLOCK: 1
+    NETHER_STAR: 1
+  copper_leggings:
+    COPPER_LEGGINGS: 1
+    custom:armor_plate: 1
+    COPPER_BLOCK: 12
+    PHANTOM_MEMBRANE: 4
+    BREEZE_ROD: 4
+    NETHER_STAR: 1
+  copper_boots:
+    COPPER_BOOTS: 1
+    custom:armor_plate: 1
+    COPPER_BLOCK: 8
+    FEATHER: 8
+    BREEZE_ROD: 4
+    NETHER_STAR: 1
+
+# ------------------------------------------------------------
+#  Сообщения
+# ------------------------------------------------------------
+messages:
+  altar_unbreakable: "&cГлавный блок алтаря сломать нельзя."
+  food_cooldown: "&cВедро еды перезаряжается: &f{time} с"
+  food_used: "&dВедро еды: снято негативных эффектов &f{removed}&d, оставлено (легендарки) &f{kept}&d. Заряды: &f{left}/{max}"
+  prefix: "&8[&6Легенды&8] &7"
+  pouch_limit: "&cВзять ещё не получится: у вас уже максимум мешочков ({max})."
+  pouch_denied: "&cЭто нельзя положить в мешочек (оружие, броня, шалкеры, мешочки)."
+  legendary_death_drop: "&c&l☠ &c{player} погиб и выронил легендарный предмет &r{item}&c!"
+  dungeon_boss_dead: "&6&l⚔ &eРыцарь-страж склепа повержен игроком &f{player}&e! Сокровищница открыта."
+  legendary_void: "&c&l☠ &cЛегендарный предмет &r{item} &cуничтожен в пустоте! Бросил: &f{player}"
+  eliminated: "&4&l☠ &c{player} лишился последнего сердца и выбыл из игры."
+  eliminated_self: "&4У вас не осталось сердец. Вы выбыли из игры (наблюдатель). Вернуть вас может только администратор."
+  revived: "&aИгрок {player} возвращён в игру."
+  no_permission: "&cНет прав."
+  world_disabled: "&cВ этом мире способности отключены."
+  suppressed: "&cЗона подавления! Способности недоступны."
+  cooldown: "&cПерезарядка: &f{time} с"
+  used: "&6{ability}"
+  locked: "&cВторая способность закрыта: &f{count}/{need} &cубийств разных игроков этим оружием."
+  unlocked: "&aВторая способность оружия &f{weapon} &aоткрыта!"
+  progress_kill: "&7Прогресс &f{weapon}&7: &f{count}/{need}"
+  no_target: "&cНет подходящей цели."
+  no_safe: "&cНет безопасного места для этого."
+  heart_gain: "&aВы похитили сердце у &f{player}&a. Сердец: &f{hearts}"
+  heart_lost: "&cУ вас похитили сердце. Осталось: &f{hearts}"
+  heart_min: "&7У жертвы минимум сердец — похищение невозможно."
+  heart_max: "&7Вы достигли максимума сердец."
+  altar_busy: "&cЭтот алтарь занят ритуалом (осталось &f{time} с&c)."
+  altar_in_use: "&cАлтарём уже пользуется другой игрок."
+  altar_broken: "&cКонструкция алтаря повреждена: &f{problem}"
+  altar_missing: "&cНе хватает: &f{item} &7({have}/{need})"
+  altar_recipe_invalid: "&cРецепт этого алтаря настроен неверно, сообщите админу."
+  ritual_start: "&aРитуал начался! Осталось &f{time} с&a."
+  ritual_done: "&6Ритуал завершён! Вы получили &f{weapon}&6."
+  ritual_unique_taken: "&cЭто оружие уникально и уже создано (или создаётся)."
+  world_altar_disabled: "&cАлтарь в этом мире не работает."
+  ban_notice: "&cИгрок &f{player} &cубит Молотом бана и забанен навсегда."
+  set_no_charge: "&cНе хватает заряда комплекта: &f{have}/{need}"
+  charge_gain: "&bЗаряд: &f{charges}"

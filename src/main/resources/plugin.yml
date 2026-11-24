@@ -1,0 +1,68 @@
+name: LegendaryWeapons
+version: '${project.version}'
+main: ru.smp.legendary.LegendaryPlugin
+api-version: '1.21'
+description: Legendary weapons, altars and copper armor set
+commands:
+  legendary:
+    description: Legendary weapons admin command
+    usage: /legendary help
+    aliases: [leg, lw]
+    permission: legendary.admin
+    permission-message: "§cЭта команда только для администраторов."
+  stats:
+    description: Включить или выключить табло статистики справа
+    usage: /stats
+    aliases: [табло]
+permissions:
+  legendary.admin:
+    description: All legendary admin permissions
+    default: op
+    children:
+      legendary.command.give: true
+      legendary.command.reload: true
+      legendary.command.dungeon: true
+      legendary.command.barrier: true
+      legendary.command.info: true
+      legendary.command.progress: true
+      legendary.command.hearts: true
+      legendary.command.altar: true
+      legendary.command.banlog: true
+      legendary.command.unban: true
+      legendary.command.unique: true
+      legendary.command.cooldown: true
+      legendary.command.menu: true
+      legendary.altar.break: true
+      legendary.banhammer.immune: true
+  legendary.command.give:
+    default: false
+  legendary.command.reload:
+    default: false
+  legendary.command.dungeon:
+    default: false
+  legendary.command.barrier:
+    default: false
+  legendary.command.info:
+    default: false
+  legendary.command.progress:
+    default: false
+  legendary.command.hearts:
+    default: false
+  legendary.command.altar:
+    default: false
+  legendary.command.banlog:
+    default: false
+  legendary.command.unban:
+    default: false
+  legendary.command.unique:
+    default: false
+  legendary.command.cooldown:
+    default: false
+  legendary.command.menu:
+    default: false
+  legendary.altar.break:
+    description: Allows breaking registered altar blocks
+    default: false
+  legendary.banhammer.immune:
+    description: Player cannot be banned by the Ban Hammer
+    default: false
